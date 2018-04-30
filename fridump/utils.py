@@ -10,8 +10,7 @@ def printProgress(times, total, prefix='', suffix='', decimals=2, bar=100):
     filled = int(round(bar * times / float(total)))
     percents = round(100.00 * (times / float(total)), decimals)
     bar = '#' * filled + '-' * (bar - filled)
-    sys.stdout.write('%s [%s] %s%s %s\r' % (prefix, bar, percents, '%', suffix)),
-    sys.stdout.flush()
+    print('\r%s [%s] %s%s %s' % (prefix, bar, percents, '%', suffix), end="", flush=False)
     if times == total:
         print("\n")
 
