@@ -71,7 +71,7 @@ def fridump(process):
     l = len(files)
     print("Running strings on all files:")
     for f1 in files:
-        utils.strings(f1, DIRECTORY)
+        utils.strings(f1, DIRECTORY, process)
         i += 1
         utils.printProgress(i, l, prefix='Progress:', suffix='Complete', bar=50)
 

@@ -12,12 +12,13 @@ def printProgress(times, total, prefix='', suffix='', decimals=2, bar=100):
     bar = '#' * filled + '-' * (bar - filled)
     print('\r%s [%s] %s%s %s' % (prefix, bar, percents, '%', suffix), end="", flush=False)
     if times == total:
-        print("\n")
+        print()
 
 
 # A very basic implementations of Strings
-def strings(filename, directory, min=4):
-    strings_file = os.path.join(directory, "strings.txt")
+def strings(filename, directory, processName, min=4):
+    strings_file_name = processName + "_strings.txt"
+    strings_file = os.path.join(directory, strings_file_name)
     path = os.path.join(directory, filename)
 
     str_list = re.findall(b"[A-Za-z0-9/\-:;.,_$%'!()[\]<> \#]+", open(path, "rb").read())

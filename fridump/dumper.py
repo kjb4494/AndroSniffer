@@ -13,7 +13,7 @@ def dump_to_file(session, base, size, error, directory):
         f.close()
         return error
     except:
-        print("Oops, memory access violation!")
+        print("\n{}: Oops, memory access violation!\n".format(str(hex(base))))
 
         return error
 
