@@ -27,8 +27,8 @@ def fridump(process):
         except:
             session = frida.attach(APP_NAME)
     except:
-        print("Can't connect to App. Have you connected the device?")
-        sys.exit(0)
+        print("Can't connect to App... {}".format(APP_NAME))
+        return
 
     # 메모리 덤프를 저장할 디렉토리 생성 및 지정
     print("Current Directory: {}.".format(str(os.getcwd())))
@@ -87,3 +87,13 @@ def fridump(process):
     print("Finished!")
 
     # 프로세스가 끝나지않는 버그가 있는거 같음...
+
+
+# 연결된 디바이스의 모든 프로세스명을 가져오는 함수
+def fridump_all():
+    device = frida.get_device_manager().enumerate_devices()[-1]
+    processes = device.enumerate_processes()
+    ps_list = []
+    for process in processes:
+        ps_list.append(process.name)
+    return ps_list
