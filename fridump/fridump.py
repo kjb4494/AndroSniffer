@@ -22,10 +22,6 @@ def fridump(process):
     # 세션 수립
     session = None
     try:
-        # if USB:
-        #     session = frida.get_usb_device().attach(APP_NAME)
-        # else:
-        #     session = frida.attach(APP_NAME)
         try:
             session = frida.get_usb_device().attach(APP_NAME)
         except:
@@ -36,7 +32,20 @@ def fridump(process):
 
     # 메모리 덤프를 저장할 디렉토리 생성 및 지정
     print("Current Directory: {}.".format(str(os.getcwd())))
-    DIRECTORY = os.path.join(os.getcwd(), "MemoryDumpFolder")
+    
+    # 디렉토리를 만들기 위해 프로세스명의 다음과 같은 문자를 '-'로 대체
+    process_name = process
+    process_name = process_name.replace('\\', '-')
+    process_name = process_name.replace('/', '-')
+    process_name = process_name.replace(':', '-')
+    process_name = process_name.replace('*', '-')
+    process_name = process_name.replace('?', '-')
+    process_name = process_name.replace('"', '-')
+    process_name = process_name.replace('<', '-')
+    process_name = process_name.replace('>', '-')
+    process_name = process_name.replace('|', '-')
+
+    DIRECTORY = os.path.join(os.getcwd(), "MemoryDumpFolder/"+process_name)
     print("Output directory is set to: {}".format(DIRECTORY))
     if not os.path.exists(DIRECTORY):
         print("Creating directory...")
@@ -71,7 +80,7 @@ def fridump(process):
     l = len(files)
     print("Running strings on all files:")
     for f1 in files:
-        utils.strings(f1, DIRECTORY, process)
+        utils.strings(f1, DIRECTORY, process_name)
         i += 1
         utils.printProgress(i, l, prefix='Progress:', suffix='Complete', bar=50)
 
