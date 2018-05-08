@@ -1,10 +1,11 @@
 # AndroSniffer
-
 > Kitri Security Project
+
+## 구동 조건
 - Python 3.6+
 - 시스템 환경변수 설정된 adb
 
-## Memo
+## 모듈 구조
 > adb로 인증 관련 데이터 가져오기
 >> pull_data.py
 - adb root connect
@@ -25,3 +26,9 @@
 >>> _앱이름.py
 - first_branch.py는 프로세스 진행 중 첫번째로 예외처리가 진행될 분기점이다.
 - _앱이름.py에서 해당 앱에 대한 처리를 독립적인 모듈로 수행한다.
+
+## 분석 가능한 앱
+- 네이버
+- 다음
+- 네이트
+- 페이스북

@@ -9,6 +9,15 @@ def cmd_output(command):
                             stderr=subprocess.STDOUT, bufsize=1)
     return proc.communicate()[0].decode('utf-8')
 
+# adb pull 명령어를 처리하는 함수
+def pull_command(path, data_path, extension):
+    tmp_name_split_list = data_path.split('.')
+    save_path = path + '\\' + tmp_name_split_list[1] + '-dump.' + extension
+    command = cmd_output('adb pull /data/data/' + data_path + ' ' + save_path)
+    # 경로가 잘못됐거나 database에 없는 정보면 출력을 무시한다.
+    if command.split(':')[1] != ' error':
+        print(command)
+
 
 # adb에 연결하는 함수
 def adb_connect():
@@ -22,8 +31,10 @@ def adb_connect():
     # Nox Test
     # print(cmd_output("adb connect 127.0.0.1:62001"))
 
-    # 루트 권한 부여
-    print(cmd_output('adb root'))
+    # 디바이스 연결 확인 및 루트 권한 부여
+    if len(cmd_output('adb root')) > 0:
+        print('no devices/emulators found')
+        exit()
 
 
 # adb로 필요한 데이터를 pull하는 함수
@@ -33,11 +44,6 @@ def adb_pull(path):
     for data_path in data_paths:
         # 예외적으로 처리해줘야할 앱의 경로
         if data_path in exc_data_paths:
-            first_branch.fb(path, data_path)
+            first_branch.pull_branch(path, data_path)
             continue
-        tmp_name_split_list = data_path.split('.')
-        save_path = path + '\\' + tmp_name_split_list[1] + '-dump.db'
-        command = cmd_output('adb pull /data/data/' + data_path + ' ' + save_path)
-        # 경로가 잘못됐거나 database에 없는 정보면 출력을 무시한다.
-        if command.split(':')[1] != ' error':
-            print(command)
+        pull_command(path, data_path, 'db')
