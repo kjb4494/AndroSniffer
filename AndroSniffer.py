@@ -1,7 +1,10 @@
 # 메인 모듈
 
+import pull_data
+import auth_generator
+
 def main():
-    print("Hello Wolrd!")
+    pull_data.adb_connect()
 
 
 if __name__ == "__main__":
