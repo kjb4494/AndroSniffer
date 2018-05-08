@@ -91,7 +91,11 @@ def fridump(process):
 
 # 연결된 디바이스의 모든 프로세스명을 가져오는 함수
 def fridump_all():
-    device = frida.get_device_manager().enumerate_devices()[-1]
+    try:
+        device = frida.get_device_manager().enumerate_devices()[-1]
+    except:
+        print("you must connect device")
+        return
     processes = device.enumerate_processes()
     ps_list = []
     for process in processes:

@@ -1,9 +1,7 @@
-from fridump import fridump
+import pull_data
 
 def main():
-    ps_list = fridump.fridump_all()
-    for p in ps_list:
-        fridump.fridump(p)
+    pull_data.adb_connect()
 
 if __name__ == "__main__":
     main()
