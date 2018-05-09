@@ -35,4 +35,11 @@ def search_db(file_name):
               'FROM cookies ' \
               'WHERE name=? or name=? or name=? or name=? or name=? or name=?'
         return {'t': t, 'sql': sql}
+    # 페이스북
+    elif file_name == 'facebook-dump.db':
+        t = ('c_user', 'xs', 'fr',)
+        sql = 'SELECT name, value ' \
+              'FROM cookies ' \
+              'WHERE name=? or name=? or name=?'
+        return {'t': t, 'sql': sql}
     return

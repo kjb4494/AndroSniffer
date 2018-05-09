@@ -31,7 +31,7 @@ def data_extract(path_dir):
                 conn.close()
             # 확장자가 db가 아니라 다른 분석 방법이 필요한 경우
             else:
-                cookie_str = first_branch.data_extract_branch(file_name)
+                cookie_str = first_branch.data_extract_branch(path_dir, file_name)
                 cookie_list.append(cookie_str)
     return cookie_list
 

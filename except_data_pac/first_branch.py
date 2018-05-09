@@ -13,7 +13,7 @@ def pull_branch(path, data_path):
 # 파일을 분석할 때 분기점 함수
 # file_name = 앱의 인증파일 경로를 '.'으로 split한 두번째 단어-dump
 # _앱이름.data_extract()로 맵핑
-def data_extract_branch(file_name):
+def data_extract_branch(path_dir, file_name):
     # 페이스북일 경우
     if file_name == 'facebook-dump':
-        return _facebook.data_extract()
+        return _facebook.data_extract(path_dir, file_name)
