@@ -12,8 +12,10 @@ def cmd_output(command):
 # adb pull 명령어를 처리하는 함수
 def pull_command(path, data_path, extension):
     tmp_name_split_list = data_path.split('.')
+    tmp_name = (tmp_name_split_list[1] + tmp_name_split_list[2]).replace('/', '')
     save_path = path + '\\' + tmp_name_split_list[1] + '-dump.' + extension
-    command = cmd_output('adb pull /data/data/' + data_path + ' ' + save_path)
+    cmd_output('adb shell "su -c cp -f /data/data/' + data_path + ' /mnt/sdcard/' + tmp_name + '"')
+    command = cmd_output('adb pull /mnt/sdcard/' + tmp_name + ' ' + save_path)
     # 경로가 잘못됐거나 database에 없는 정보면 출력을 무시한다.
     if command.split(':')[1] != ' error':
         print(command)
