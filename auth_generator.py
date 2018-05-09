@@ -39,8 +39,7 @@ def data_extract(path_dir):
 # 인증 쿠키값을 추출하는 함수
 # 매개변수는 name, value로 구성된 튜플로 들어온다.
 def cookie_generate(name_value, file_name):
-    cookie_str = 'APP: ' + file_name + '\n'
+    cookie_str = ''
     for s in name_value:
         cookie_str += s[0] + '=' + s[1] + '\n'
-        # print(s[0] + '=' + s[1])
-    return cookie_str[:-1]
+    return file_name, cookie_str[:-1]
