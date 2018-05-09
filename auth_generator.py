@@ -12,10 +12,10 @@ def data_extract(path_dir):
         print('path not found.')
         return
     file_list.sort()
+    cookie_list = []
     for file in file_list:
         file_name = file.split('.')[0]
         file_type = file.split('.')[-1]
-        print(file_name)
         # 분석 가능한 파일만 분석한다.
         if file_name in data_controller.file_name_list():
             # 확장자가 db인 경우
@@ -26,16 +26,21 @@ def data_extract(path_dir):
                 t = data_controller.search_db(file)['t']
                 sql = data_controller.search_db(file)['sql']
                 extracted_data = c.execute(sql, t)
-                cookie_generate(extracted_data)
+                cookie_str = cookie_generate(extracted_data, file_name)
+                cookie_list.append(cookie_str)
                 conn.close()
             # 확장자가 db가 아니라 다른 분석 방법이 필요한 경우
             else:
-                first_branch.data_extract_branch(file_name)
+                cookie_str = first_branch.data_extract_branch(file_name)
+                cookie_list.append(cookie_str)
+    return cookie_list
 
 
 # 인증 쿠키값을 추출하는 함수
 # 매개변수는 name, value로 구성된 튜플로 들어온다.
-def cookie_generate(name_value):
+def cookie_generate(name_value, file_name):
+    cookie_str = 'APP: ' + file_name + '\n'
     for s in name_value:
-        print(s[0] + '=' + s[1])
-    print()
+        cookie_str += s[0] + '=' + s[1] + '\n'
+        # print(s[0] + '=' + s[1])
+    return cookie_str[:-1]

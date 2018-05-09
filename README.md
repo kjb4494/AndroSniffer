@@ -29,6 +29,15 @@
 - first_branch.py는 프로세스 진행 중 첫번째로 예외처리가 진행될 분기점이다.
 - _앱이름.py에서 해당 앱에 대한 처리를 독립적인 모듈로 수행한다.
 
+## 유지보수
+> 일반적인 앱 추가 시 수정항목
+- data_controller.py의 data_list 리스트에 앱의 인증파일 경로 추가.
+- data_controller.py의 search_db 함수에 앱의 인증에 유효한 데이터를 추출하는데 필요한 변수 추가
+> 예외적인 분석이 필요한 앱 추가 시 수정항목
+- data_controller.py의 data_list 리스트 및 data_exception_list 리스트에 앱의 인증파일 경로 추가.
+- except_data_pac 패키지의 first_branch에 elif문 추가
+- except_data_pac 패키지에 _앱이름.py을 추가하여 data_extract 함수에 분석 알고리즘 작성
+
 ## 분석 가능한 앱
 - 네이버
 - 다음
