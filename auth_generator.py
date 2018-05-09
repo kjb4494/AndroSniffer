@@ -23,9 +23,10 @@ def data_extract(path_dir):
                 db_file_name = path_dir + '\\' + file
                 conn = sqlite3.connect(db_file_name)
                 c = conn.cursor()
-                t = data_controller.search_db(file)['t']
-                sql = data_controller.search_db(file)['sql']
-                extracted_data = c.execute(sql, t)
+                # t = data_controller.search_db(file)['t']
+                # sql = data_controller.search_db(file)['sql']
+                # extracted_data = c.execute(sql, t)
+                extracted_data = c.execute('SELECT name, value FROM cookies')
                 cookie_str = cookie_generate(extracted_data, file_name)
                 cookie_list.append(cookie_str)
                 conn.close()
