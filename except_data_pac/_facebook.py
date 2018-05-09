@@ -11,6 +11,7 @@ def data_extract(path_dir, file_name):
     lines = open(path_dir + "\\" + file_name + ".json", 'r').read()
     m = re.search(r"\[(\{.*\})[,](\{.*\})[,](\{.*\})[,](\{.*\})\]", lines)
     for i in range(1, 4):
+        #json객체를 다시 딕셔너리로 변환
         dicts = json.loads(m.group(i))
         if dicts['name'] == 'c_user':
             name_value.append(('c_user', dicts['value']))
