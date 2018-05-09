@@ -23,9 +23,10 @@ def data_extract(path_dir):
                 db_file_name = path_dir + '\\' + file
                 conn = sqlite3.connect(db_file_name)
                 c = conn.cursor()
-                t = data_controller.search_db(file)['t']
-                sql = data_controller.search_db(file)['sql']
-                extracted_data = c.execute(sql, t)
+                # t = data_controller.search_db(file)['t']
+                # sql = data_controller.search_db(file)['sql']
+                # extracted_data = c.execute(sql, t)
+                extracted_data = c.execute('SELECT name, value FROM cookies')
                 cookie_str = cookie_generate(extracted_data, file_name)
                 cookie_list.append(cookie_str)
                 conn.close()
@@ -39,8 +40,7 @@ def data_extract(path_dir):
 # 인증 쿠키값을 추출하는 함수
 # 매개변수는 name, value로 구성된 튜플로 들어온다.
 def cookie_generate(name_value, file_name):
-    cookie_str = 'APP: ' + file_name + '\n'
+    cookie_str = ''
     for s in name_value:
         cookie_str += s[0] + '=' + s[1] + '\n'
-        # print(s[0] + '=' + s[1])
-    return cookie_str[:-1]
+    return file_name, cookie_str[:-1]
