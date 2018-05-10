@@ -1,6 +1,7 @@
 def path_database():
     # 분석이 끝난 앱의 인증파일 경로
     data_list = ['com.nhn.android.search/app_webview/Cookies',
+                 'com.nhn.android.search/app_xwalkcore/Default/Cookies',
                  'net.daum.android.daum/app_webview/Cookies',
                  'com.facebook.lite/app_webview/Cookies',
                  'com.facebook.katana/app_light_prefs/com.facebook.katana/authentication']
@@ -15,28 +16,25 @@ def exc_path_database():
 
 # =============================================================
 
-def file_name_list():
-    # 분석 가능한 파일명
-    return [i.split('.')[1] + '-dump' for i in path_database()]
 
-def search_db(file_name):
-    # 각 앱의 인증에 유효한 데이터를 추출하는데 필요한 변수 모음
+def search_db(app_name):
+    # 각 앱의 인증에 유효한 데이터만을 추출하는데 필요한 변수 모음
     # 네이버
-    if file_name == 'nhn-dump.db':
+    if app_name == 'nhn':
         t = ('nid_inf', 'NID_AUT', 'NID_JKL', 'NID_SES',)
         sql = 'SELECT name, value ' \
               'FROM cookies ' \
               'WHERE name=? or name=? or name=? or name=?'
         return {'t': t, 'sql': sql}
     # 다음
-    elif file_name == 'daum-dump.db':
+    elif app_name == 'daum':
         t = ('TS', 'HTS', 'HM_CU', 'PROF', 'ALID', 'LSID',)
         sql = 'SELECT name, value ' \
               'FROM cookies ' \
               'WHERE name=? or name=? or name=? or name=? or name=? or name=?'
         return {'t': t, 'sql': sql}
     # 페이스북
-    elif file_name == 'facebook-dump.db':
+    elif app_name == 'facebook':
         t = ('c_user', 'xs', 'fr',)
         sql = 'SELECT name, value ' \
               'FROM cookies ' \

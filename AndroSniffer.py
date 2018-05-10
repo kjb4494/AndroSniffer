@@ -14,7 +14,8 @@ def main():
         print("path not found...:(")
         return
     now = time.localtime()
-    today = "%04d-%02d-%02d" % (now.tm_year, now.tm_mon, now.tm_mday)
+    today = "%04d-%02d-%02d-%02d-%02d-%02d" % \
+            (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec)
     work_dir = root_dir + '/' + today
     try:
         if not os.path.exists(work_dir):

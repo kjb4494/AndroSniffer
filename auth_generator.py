@@ -14,19 +14,28 @@ def data_extract(path_dir):
     file_list.sort()
     cookie_list = []
     for file in file_list:
+        # file_name: daum-dump daum-dump-2 nhn-dump ...
+        # file_type: db json ...
+        # app_name : daum nhn facebook ...
         file_name = file.split('.')[0]
         file_type = file.split('.')[-1]
-        # 분석 가능한 파일만 분석한다.
-        if file_name in data_controller.file_name_list():
+        app_name = file_name.split('-')[0]
+        # 파일명이 cookies가 아닐 경우
+        if file_name != 'cookies':
             # 확장자가 db인 경우
             if file_type == 'db':
                 db_file_name = path_dir + '\\' + file
                 conn = sqlite3.connect(db_file_name)
                 c = conn.cursor()
-                # t = data_controller.search_db(file)['t']
-                # sql = data_controller.search_db(file)['sql']
-                # extracted_data = c.execute(sql, t)
-                extracted_data = c.execute('SELECT name, value FROM cookies')
+                try:
+                    t = data_controller.search_db(app_name)['t']
+                    sql = data_controller.search_db(app_name)['sql']
+                    extracted_data = c.execute(sql, t)
+                # None Type Error 방지.
+                # data_controller에서 app_name을 찾지 못하면 모든 cookie값을 가져온다.
+                except:
+                    extracted_data = c.execute('SELECT name, value FROM cookies')
+                    print("app_name: '{}' not found! select all cookie datas...".format(app_name))
                 cookie_str = cookie_generate(extracted_data, file_name)
                 cookie_list.append(cookie_str)
                 conn.close()

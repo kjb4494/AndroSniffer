@@ -1,5 +1,6 @@
 import subprocess
 import data_controller
+import os
 from except_data_pac import first_branch
 
 
@@ -12,10 +13,21 @@ def cmd_output(command):
 # adb pull 명령어를 처리하는 함수
 def pull_command(path, data_path, extension):
     tmp_name_split_list = data_path.split('.')
-    tmp_name = (tmp_name_split_list[1] + tmp_name_split_list[2]).replace('/', '')
-    save_path = path + '\\' + tmp_name_split_list[1] + '-dump.' + extension
-    cmd_output('adb shell "su -c cp -f /data/data/' + data_path + ' /mnt/sdcard/' + tmp_name + '"')
-    command = cmd_output('adb pull /mnt/sdcard/' + tmp_name + ' ' + save_path)
+    # tmp_name: nhn, daum, facebook ...
+    tmp_name = tmp_name_split_list[1]
+    # save_path: PC에 저장될 파일 경로
+    # ex) nhn-dump.db nhn-dump-2.db ... (동일명의 파일이 올 경우)
+    save_path = path + '\\' + tmp_name + '-dump.' + extension
+    # 권한 우회를 위해 내부 저장소에서 외부 저장소로 옮긴다.
+    cmd_output('adb shell "su -c cp -f /data/data/' + data_path + ' /mnt/sdcard/' + tmp_name + '-tmp"')
+    # 동일명의 파일이 있을 경우 파일명을 변경하고 PC로 가져온다.
+    i = 2
+    while os.path.exists(save_path):
+        save_path = path + '\\' + tmp_name_split_list[1] + '-dump-' + str(i) + '.' + extension
+        i += 1
+    command = cmd_output('adb pull /mnt/sdcard/' + tmp_name + '-tmp ' + save_path)
+    # PULL 작업이 끝나면 외부 저장소의 임시파일을 지운다.
+    cmd_output('adb shell "su -c rm -rf /mnt/sdcard/' + tmp_name + '-tmp"')
     # 경로가 잘못됐거나 database에 없는 정보면 출력을 무시한다.
     if command.split(':')[1] != ' error':
         print(command)
