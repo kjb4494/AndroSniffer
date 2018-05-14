@@ -7,7 +7,10 @@ import pull_data
 def pull_branch(path, data_path):
     # 페이스북일 경우
     if data_path == 'com.facebook.katana/app_light_prefs/com.facebook.katana/authentication':
+        # real device 환경
         pull_data.pull_command(path, data_path, 'json')
+        # nox 환경
+        pull_data.pull_command_for_nox(path, data_path, 'json')
 
 
 # 파일을 분석할 때 분기점 함수

@@ -32,6 +32,16 @@ def pull_command(path, data_path, extension):
     if command.split(':')[1] != ' error':
         print(command)
 
+# nox 환경을 위한 pull_command 함수
+def pull_command_for_nox(path, data_path, extension):
+    tmp_name_split_list = data_path.split('.')
+    tmp_name = tmp_name_split_list[1]
+    save_path = path + '\\' + tmp_name + '-dump.' + extension
+    command = cmd_output('adb pull /data/data/' + data_path + ' ' + save_path)
+    # 경로가 잘못됐거나 database에 없는 정보면 출력을 무시한다.
+    if command.split(':')[1] != ' error':
+        print(command)
+
 
 # adb에 연결하는 함수
 def adb_connect():
@@ -60,4 +70,7 @@ def adb_pull(path):
         if data_path in exc_data_paths:
             first_branch.pull_branch(path, data_path)
             continue
+        # real device 환경
         pull_command(path, data_path, 'db')
+        # nox 환경
+        pull_command_for_nox(path, data_path, 'db')
