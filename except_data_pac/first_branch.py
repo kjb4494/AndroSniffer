@@ -10,7 +10,7 @@ def pull_branch(path, data_path):
         # real device 환경
         pull_data.pull_command(path, data_path, 'json')
         # nox 환경
-        pull_data.pull_command_for_nox(path, data_path, 'json')
+        # pull_data.pull_command_for_nox(path, data_path, 'json')
 
 
 # 파일을 분석할 때 분기점 함수

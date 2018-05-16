@@ -23,7 +23,7 @@ def pull_command(path, data_path, extension):
     # 동일명의 파일이 있을 경우 파일명을 변경하고 PC로 가져온다.
     i = 2
     while os.path.exists(save_path):
-        save_path = path + '\\' + tmp_name_split_list[1] + '-dump-' + str(i) + '.' + extension
+        save_path = path + '\\' + tmp_name + '-dump-' + str(i) + '.' + extension
         i += 1
     command = cmd_output('adb pull /mnt/sdcard/' + tmp_name + '-tmp ' + save_path)
     # PULL 작업이 끝나면 외부 저장소의 임시파일을 지운다.
@@ -33,6 +33,7 @@ def pull_command(path, data_path, extension):
         print(command)
 
 # nox 환경을 위한 pull_command 함수
+# 테스트용 코드
 def pull_command_for_nox(path, data_path, extension):
     tmp_name_split_list = data_path.split('.')
     tmp_name = tmp_name_split_list[1]
@@ -73,4 +74,4 @@ def adb_pull(path):
         # real device 환경
         pull_command(path, data_path, 'db')
         # nox 환경
-        pull_command_for_nox(path, data_path, 'db')
+        # pull_command_for_nox(path, data_path, 'db')

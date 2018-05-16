@@ -8,6 +8,7 @@ import json
 # file_name은 앱 이름-dump: 사용자가 구별하기 쉽게 하기 위해 주는 이름
 def data_extract(path_dir, file_name):
     name_value = list()
+    # 파일 참조과정에서 인코딩 에러
     lines = open(path_dir + "\\" + file_name + ".json", 'r').read()
     m = re.search(r"\[(\{.*\})[,](\{.*\})[,](\{.*\})[,](\{.*\})\]", lines)
     for i in range(1, 4):
