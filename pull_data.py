@@ -25,23 +25,26 @@ def pull_command(path, data_path, extension):
     while os.path.exists(save_path):
         save_path = path + '\\' + tmp_name + '-dump-' + str(i) + '.' + extension
         i += 1
-    command = cmd_output('adb pull /mnt/sdcard/' + tmp_name + '-tmp ' + save_path)
+    # 경로가 잘못됐거나 database에 없는 정보면 출력을 무시한다.
+    if (cmd_output('adb pull /mnt/sdcard/' + tmp_name + '-tmp ' + save_path)).split(':')[1] != ' error':
+        print("[Info] Pulled /data/data/{} --> {}".format(data_path, save_path))
     # PULL 작업이 끝나면 외부 저장소의 임시파일을 지운다.
     cmd_output('adb shell "su -c rm -rf /mnt/sdcard/' + tmp_name + '-tmp"')
-    # 경로가 잘못됐거나 database에 없는 정보면 출력을 무시한다.
-    if command.split(':')[1] != ' error':
-        print(command)
 
-# nox 환경을 위한 pull_command 함수
+# 가상 환경을 위한 pull_command 함수
 # 테스트용 코드
 def pull_command_for_nox(path, data_path, extension):
     tmp_name_split_list = data_path.split('.')
     tmp_name = tmp_name_split_list[1]
     save_path = path + '\\' + tmp_name + '-dump.' + extension
-    command = cmd_output('adb pull /data/data/' + data_path + ' ' + save_path)
+    # 동일명의 파일이 있을 경우 파일명을 변경하고 PC로 가져온다.
+    i = 2
+    while os.path.exists(save_path):
+        save_path = path + '\\' + tmp_name + '-dump-' + str(i) + '.' + extension
+        i += 1
     # 경로가 잘못됐거나 database에 없는 정보면 출력을 무시한다.
-    if command.split(':')[1] != ' error':
-        print(command)
+    if (cmd_output('adb pull /data/data/' + data_path + ' ' + save_path)).split(':')[1] != ' error':
+        print("[Info] Pulled /data/data/{} --> {}".format(data_path, save_path))
 
 
 # adb에 연결하는 함수
@@ -52,9 +55,6 @@ def adb_connect():
     except:
         print("adb not found error. please check path of adb...")
         exit()
-
-    # Nox Test
-    # print(cmd_output("adb connect 127.0.0.1:62001"))
 
     # 디바이스 연결 확인 및 루트 권한 부여
     if len(cmd_output('adb root')) > 0:
@@ -73,5 +73,5 @@ def adb_pull(path):
             continue
         # real device 환경
         pull_command(path, data_path, 'db')
-        # nox 환경
+        # 가상 환경
         # pull_command_for_nox(path, data_path, 'db')

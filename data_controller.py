@@ -42,4 +42,10 @@ def search_db(app_name):
               'FROM cookies ' \
               'WHERE name=? or name=? or name=?'
         return {'t': t, 'sql': sql}
+    elif app_name == 'nate':
+        t = ('.nate.com', 'SFN',)
+        sql = 'SELECT name, value ' \
+              'FROM cookies ' \
+              'WHERE host_key=? and name=?'
+        return {'t': t, 'sql': sql}
     return

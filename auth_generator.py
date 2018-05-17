@@ -9,7 +9,7 @@ def data_extract(path_dir):
     try:
         file_list = os.listdir(path_dir)
     except:
-        print('path not found.')
+        print('[Failed] path not found.')
         return
     file_list.sort()
     cookie_list = []
@@ -35,7 +35,7 @@ def data_extract(path_dir):
                 # data_controller에서 app_name을 찾지 못하면 모든 cookie값을 가져온다.
                 except:
                     extracted_data = c.execute('SELECT name, value FROM cookies')
-                    print("app_name: '{}' not found! select all cookie datas...".format(app_name))
+                    print("[Notice] '{}'앱은 필터링이 등록되지 않았습니다. 대신 모든 쿠키값을 가져옵니다.".format(app_name))
                 cookie_str = cookie_generate(extracted_data, file_name)
                 cookie_list.append(cookie_str)
                 conn.close()

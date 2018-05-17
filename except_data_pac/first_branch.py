@@ -9,7 +9,7 @@ def pull_branch(path, data_path):
     if data_path == 'com.facebook.katana/app_light_prefs/com.facebook.katana/authentication':
         # real device 환경
         pull_data.pull_command(path, data_path, 'json')
-        # nox 환경
+        # 가상 환경
         # pull_data.pull_command_for_nox(path, data_path, 'json')
 
 
