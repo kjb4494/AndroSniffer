@@ -3,10 +3,10 @@ def path_database():
     data_list = ['com.nhn.android.search/app_webview/Cookies',
                  'com.nhn.android.search/app_xwalkcore/Default/Cookies',
                  'net.daum.android.daum/app_webview/Cookies',
-                 'com.facebook.lite/app_webview/Cookies',
-                 'com.facebook.katana/app_light_prefs/com.facebook.katana/authentication',
                  'com.twitter.android/app_webview/Cookies',
-                 'com.nate.android.portalmini/app_webview/Cookies']
+                 'com.nate.android.portalmini/app_webview/Cookies',
+                 'com.google.android.googlequicksearchbox/app_webview/Cookies',
+                 'com.google.android.gms/app_webview/Cookies']
     return data_list
 
 
