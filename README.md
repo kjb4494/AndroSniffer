@@ -32,6 +32,7 @@
 > 일반적인 앱 추가 시 수정항목
 - data_controller.py의 data_list 리스트에 앱의 인증파일 경로 추가.
 - data_controller.py의 search_db 함수에 앱의 인증에 유효한 데이터를 추출하는데 필요한 변수 추가
+- data_controller.py의 host_key_db 함수에 각 앱에 필요한 도메인을 추가.
 > 예외적인 분석이 필요한 앱 추가 시 수정항목
 - data_controller.py의 data_list 리스트 및 data_exception_list 리스트에 앱의 인증파일 경로 추가.
 - except_data_pac 패키지의 first_branch에 elif문 추가
