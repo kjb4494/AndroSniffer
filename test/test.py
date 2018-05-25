@@ -36,8 +36,9 @@ class MainFrame(Frame):
 
     def insertLogText(self, textStr):
         self.logText.config(state=NORMAL)
-        self.logText.insert(INSERT, textStr + '\n')
+        self.logText.insert(END, textStr + '\n')
         self.logText.config(state=DISABLED)
+        self.logText.see(END)
         self.update()
 
     def searchDirPath(self):
