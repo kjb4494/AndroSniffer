@@ -33,12 +33,12 @@ class MainFrame(Frame):
 
         self.logText = Text(self.logFrame, height=600, state=DISABLED)
         self.logText.pack(fill=X, padx=5, pady=10, expand=True)
-        # self.insertLogText("Hello")
 
     def insertLogText(self, textStr):
         self.logText.config(state=NORMAL)
         self.logText.insert(INSERT, textStr + '\n')
         self.logText.config(state=DISABLED)
+        self.update()
 
     def searchDirPath(self):
         dirName = filedialog.askdirectory()
@@ -46,14 +46,18 @@ class MainFrame(Frame):
         self.dirPathEntry.insert(INSERT, dirName)
 
     def exec(self):
+        self.execButton.config(state=DISABLED)
         # adb 연결 여부 확인
         pullData = pull_data.PullData(self)
-        pullData.adb_connect()
+        if pullData.adb_connect() == 0:
+            self.execButton.config(state=NORMAL)
+            return
 
         # 작업영역 생성하기
         root_dir = self.dirPathEntry.get()
         if not os.path.exists(root_dir):
             self.insertLogText("[Failed] path not found...:(")
+            self.execButton.config(state=NORMAL)
             return
         now = time.localtime()
         today = "%04d-%02d-%02d-%02d-%02d-%02d" % \
@@ -64,14 +68,16 @@ class MainFrame(Frame):
                 os.mkdir(work_dir)
         except:
             self.insertLogText("[Failed] can not create workspace this path...;(")
+            self.execButton.config(state=NORMAL)
             return
         # adb pull로 파일 받아오기
         pullData.adb_pull(work_dir)
         # 파일을 분석해서 유효 데이터 추출하기
+        authGenerator = auth_generator.AuthGenerator(self)
         cookies_dir = work_dir + '/' + 'cookies'
         if not os.path.exists(cookies_dir):
             os.mkdir(cookies_dir)
-        for s in auth_generator.data_extract(work_dir):
+        for s in authGenerator.data_extract(work_dir):
             file_name = s[0].replace('dump', 'cookie') + '.txt'
             if s[1] == '':
                 self.insertLogText("[Notice] {}: 추출할 데이터가 없으므로 파일을 생성하지않습니다.".format(file_name))
@@ -80,6 +86,7 @@ class MainFrame(Frame):
                 with open(file_path, 'w') as f:
                     f.write(s[1])
         self.insertLogText("[BYE] finished! :)")
+        self.execButton.config(state=NORMAL)
 
 def main():
     # GUI 프레임 생성

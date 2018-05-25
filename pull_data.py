@@ -57,10 +57,12 @@ class PullData:
             self.mainFrame.insertLogText(self.cmd_output('adb --version'))
         except:
             self.mainFrame.insertLogText("adb not found error. please check path of adb...")
+            return 0
 
         # 디바이스 연결 확인 및 루트 권한 부여
         if len(self.cmd_output('adb root')) > 0:
             self.mainFrame.insertLogText('no devices/emulators found')
+            return 0
 
     # adb로 필요한 데이터를 pull하는 함수
     def adb_pull(self, path):
