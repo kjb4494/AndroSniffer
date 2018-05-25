@@ -3,8 +3,52 @@ import auth_generator
 import pull_data
 import time
 import os
+from tkinter import *
+from tkinter import filedialog
+
+class MainFrame(Frame):
+    def __init__(self, master):
+        Frame.__init__(self, master)
+
+        self.master = master
+        self.master.title("AndroSniffer")
+        self.master.minsize(width=700, height=700)
+        self.master.maxsize(width=700, height=700)
+        self.pack(fill=BOTH, expand=True)
+
+        # 폴더 선택 프레임
+        searchPathFrame = Frame(self)
+        searchPathFrame.pack(fill=X)
+
+        dirPathEntry = Entry(searchPathFrame)
+        dirPathEntry.pack(side=LEFT, fill=X, padx=5, pady=10, expand=True)
+        execButton = Button(searchPathFrame, text="실행", width=10)
+        execButton.pack(side=RIGHT, fill=X, padx=5, pady=10, expand=False)
+        searchPathButton = Button(searchPathFrame, text="저장경로 찾기", width=15)
+        searchPathButton.pack(side=RIGHT, fill=X, padx=5, pady=10, expand=False)
+
+        # 로그창 프레임
+        logFrame = Frame(self)
+        logFrame.pack(fill=X)
+
+        logText = Text(logFrame, height=600, state=DISABLED)
+        logText.pack(fill=X, padx=5, pady=10, expand=True)
+        # self.insertLogText(logText, "Hello")
+
+    def insertLogText(self, logText, textStr):
+        logText.config(state=NORMAL)
+        logText.insert(INSERT, textStr)
+        logText.config(state=DISABLED)
+
+    def searchDirPath(self, dirPathEntry):
+        dirName = filedialog.askdirectory()
+        dirPathEntry.insert(INSERT, dirName)
 
 def main():
+    root = Tk()
+    MainFrame(root)
+    root.mainloop()
+
     # adb 연결 여부 확인
     pull_data.adb_connect()
 
