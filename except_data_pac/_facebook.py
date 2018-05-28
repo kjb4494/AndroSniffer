@@ -12,17 +12,19 @@ def data_extract(AuthGenerator, path_dir, file_name):
     # 파일 참조과정에서 인코딩 에러
     lines = open(path_dir + "\\" + file_name + ".json", 'r').read()
     m = re.search(r"\[(\{.*\})[,](\{.*\})[,](\{.*\})[,](\{.*\})\]", lines)
-    for i in range(1, 4):
-        #json객체를 다시 딕셔너리로 변환
-        dicts = json.loads(m.group(i))
-        if dicts['name'] == 'c_user':
-            name_value.append(('c_user', dicts['value']))
-        elif dicts['name'] == 'xs':
-            name_value.append(('xs', dicts['value']))
-        elif dicts['name'] == 'fr':
-            name_value.append(('fr', dicts['value']))
+    if m is not None:
+        for i in range(1, 4):
+            #json객체를 다시 딕셔너리로 변환
+            dicts = json.loads(m.group(i))
+            if dicts['name'] == 'c_user':
+                name_value.append(('c_user', dicts['value']))
+            elif dicts['name'] == 'xs':
+                name_value.append(('xs', dicts['value']))
+            elif dicts['name'] == 'fr':
+                name_value.append(('fr', dicts['value']))
+        name_value = tuple(name_value)
+        cookie_str = AuthGenerator.cookie_str_join(name_value)
+        return cookie_str
+    else:
+        return ''
 
-    name_value = tuple(name_value)
-    file_name = 'facebook-dump'
-    cookie_str = AuthGenerator.cookie_str_join(name_value)
-    return AuthGenerator.cookie_generate(file_name, cookie_str)
