@@ -71,9 +71,9 @@ class PullData:
         for data_path in data_paths:
             # 예외적으로 처리해줘야할 앱의 경로
             if data_path in exc_data_paths:
-                first_branch.pull_branch(path, data_path)
+                first_branch.pull_branch(self, path, data_path)
                 continue
             # real device 환경
-            self.pull_command(path, data_path, 'db')
+            # self.pull_command(path, data_path, 'db')
             # 가상 환경
-            # pull_command_for_nox(path, data_path, 'db')
+            self.pull_command_for_nox(path, data_path, 'db')

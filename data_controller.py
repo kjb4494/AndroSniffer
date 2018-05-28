@@ -6,7 +6,8 @@ def path_database():
                  'com.twitter.android/app_webview/Cookies',
                  'com.nate.android.portalmini/app_webview/Cookies',
                  'com.google.android.googlequicksearchbox/app_webview/Cookies',
-                 'com.google.android.gms/app_webview/Cookies']
+                 'com.google.android.gms/app_webview/Cookies',
+                 'com.facebook.katana/app_light_prefs/com.facebook.katana/authentication']
     return data_list
 
 

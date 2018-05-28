@@ -45,16 +45,16 @@ class AuthGenerator:
                     # data_controller에서 app_name을 찾지 못하면 모든 cookie값을 가져온다.
                     except:
                         extracted_data = c.execute('SELECT name, value FROM cookies')
-                        self.mainFrame.insertLogText("[Notice] '{}'앱은 필터링이 등록되지 않았습니다. 대신 모든 쿠키값을 가져옵니다.".format(app_name))
+                        self.mainFrame.insertLogText(
+                            "[Notice] '{}'앱은 필터링이 등록되지 않았습니다. 대신 모든 쿠키값을 가져옵니다.".format(app_name))
                         cookie_str += self.cookie_generate(extracted_data)
                     cookie_list.append(self.cookie_generate(file_name, cookie_str))
                     conn.close()
                 # 확장자가 db가 아니라 다른 분석 방법이 필요한 경우
                 else:
-                    cookie_str = first_branch.data_extract_branch(path_dir, file_name)
+                    cookie_str = first_branch.data_extract_branch(self, path_dir, file_name)
                     cookie_list.append(self.cookie_generate(file_name, cookie_str))
         return cookie_list
-
 
     # 인증에 유효한 쿠키값을 문자열로 추출하는 함수
     # 매개변수는 name, value로 구성된 튜플로 들어온다.
@@ -63,7 +63,6 @@ class AuthGenerator:
         for s in name_value:
             cookie_str += s[0] + '=' + s[1] + '\n'
         return cookie_str
-
 
     # 최종적으로 cookie_list에 들어갈 가공이 끝난 정보
     def cookie_generate(self, file_name, cookie_str):

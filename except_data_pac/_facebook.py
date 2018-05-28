@@ -7,7 +7,7 @@ import json
 # name_value는 쿠키값의 name, value로 구성된 튜플
 #   --> cookie_str_join(name_value) 함수를 이용해 cookie_str을 만들 수 있다.
 # file_name은 앱 이름-dump: 사용자가 구별하기 쉽게 하기 위해 주는 이름
-def data_extract(path_dir, file_name):
+def data_extract(AuthGenerator, path_dir, file_name):
     name_value = list()
     # 파일 참조과정에서 인코딩 에러
     lines = open(path_dir + "\\" + file_name + ".json", 'r').read()
@@ -24,5 +24,5 @@ def data_extract(path_dir, file_name):
 
     name_value = tuple(name_value)
     file_name = 'facebook-dump'
-    cookie_str = auth_generator.cookie_str_join(name_value)
-    return auth_generator.cookie_generate(file_name, cookie_str)
+    cookie_str = AuthGenerator.cookie_str_join(name_value)
+    return AuthGenerator.cookie_generate(file_name, cookie_str)
