@@ -1,6 +1,7 @@
 import auth_generator
 import re
 import json
+import codecs
 
 # 페이스북
 # def cookie_generate(file_name, cookie_str) 함수로 return 시켜준다.
@@ -10,7 +11,7 @@ import json
 def data_extract(AuthGenerator, path_dir, file_name):
     name_value = list()
     # 파일 참조과정에서 인코딩 에러
-    lines = open(path_dir + "\\" + file_name + ".json", 'r').read()
+    lines = codecs.open(path_dir + "\\" + file_name + ".json", "r", "utf-8", errors="replace").read()
     m = re.search(r"\[(\{.*\})[,](\{.*\})[,](\{.*\})[,](\{.*\})\]", lines)
     if m is not None:
         for i in range(1, 4):
