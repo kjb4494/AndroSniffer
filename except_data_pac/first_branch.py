@@ -7,9 +7,9 @@ def pull_branch(PullData, path, data_path):
     # 페이스북일 경우
     if data_path == 'com.facebook.katana/app_light_prefs/com.facebook.katana/authentication':
         # real device 환경
-        # MainFrame.pull_command(path, data_path, 'json')
+        PullData.pull_command(path, data_path, 'json')
         # 가상 환경
-        PullData.pull_command_for_nox(path, data_path, 'json')
+        # PullData.pull_command_for_nox(path, data_path, 'json')
 
 
 # 파일을 분석할 때 분기점 함수

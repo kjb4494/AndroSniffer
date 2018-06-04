@@ -74,6 +74,6 @@ class PullData:
                 first_branch.pull_branch(self, path, data_path)
                 continue
             # real device 환경
-            # self.pull_command(path, data_path, 'db')
+            self.pull_command(path, data_path, 'db')
             # 가상 환경
-            self.pull_command_for_nox(path, data_path, 'db')
+            # self.pull_command_for_nox(path, data_path, 'db')
