@@ -9,7 +9,6 @@ from tkinter import filedialog
 class MainFrame(Frame):
     def __init__(self, master):
         Frame.__init__(self, master)
-
         self.master = master
         self.master.title("AndroSniffer")
         self.master.minsize(width=700, height=700)
@@ -63,22 +62,22 @@ class MainFrame(Frame):
         now = time.localtime()
         today = "%04d-%02d-%02d-%02d-%02d-%02d" % \
                 (now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec)
-        work_dir = root_dir + '/' + today
+        pullData.path = root_dir + '/' + today   # work_dir
         try:
-            if not os.path.exists(work_dir):
-                os.mkdir(work_dir)
+            if not os.path.exists(pullData.path):
+                os.mkdir(pullData.path)
         except:
             self.insertLogText("[Failed] can not create workspace this path...;(")
             self.execButton.config(state=NORMAL)
             return
         # adb pull로 파일 받아오기
-        pullData.adb_pull(work_dir)
+        pullData.adb_pull()
         # 파일을 분석해서 유효 데이터 추출하기
-        authGenerator = auth_generator.AuthGenerator(self)
-        cookies_dir = work_dir + '/' + 'cookies'
+        authGenerator = auth_generator.AuthGenerator(self, pullData.path)
+        cookies_dir = authGenerator.path_dir + '/' + 'cookies'
         if not os.path.exists(cookies_dir):
             os.mkdir(cookies_dir)
-        for s in authGenerator.data_extract(work_dir):
+        for s in authGenerator.data_extract():
             file_name = s[0].replace('dump', 'cookie') + '.txt'
             if s[1] == '':
                 self.insertLogText("[Notice] {}: 추출할 데이터가 없으므로 파일을 생성하지않습니다.".format(file_name))

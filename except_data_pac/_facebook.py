@@ -1,4 +1,3 @@
-import auth_generator
 import re
 import json
 import codecs
@@ -8,10 +7,10 @@ import codecs
 # name_value는 쿠키값의 name, value로 구성된 튜플
 #   --> cookie_str_join(name_value) 함수를 이용해 cookie_str을 만들 수 있다.
 # file_name은 앱 이름-dump: 사용자가 구별하기 쉽게 하기 위해 주는 이름
-def data_extract(AuthGenerator, path_dir, file_name):
+def data_extract(AuthGenerator):
     name_value = list()
     # 파일 참조과정에서 인코딩 에러
-    lines = codecs.open(path_dir + "\\" + file_name + ".json", "r", "utf-8", errors="replace").read()
+    lines = codecs.open(AuthGenerator.path_dir + "\\" + AuthGenerator.file_name + ".json", "r", "utf-8", errors="replace").read()
     m = re.search(r"\[(\{.*\})[,](\{.*\})[,](\{.*\})[,](\{.*\})\]", lines)
     if m is not None:
         for i in range(1, 4):
