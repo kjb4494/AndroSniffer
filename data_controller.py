@@ -48,11 +48,10 @@ def search_db(app_name, host_key):
         return {'t': t, 'sql': sql}
     # 네이트
     elif app_name == 'nate':
-        t = (host_key, '.nate.com', 'SFN',)
+        t = (host_key,)
         sql = 'SELECT name, value ' \
               'FROM cookies ' \
-              'WHERE host_key=? ' \
-              'AND host_key=? and name=?'
+              'WHERE host_key=? '
         return {'t': t, 'sql': sql}
     # 구글
     elif app_name == 'google':
@@ -74,7 +73,7 @@ def host_key_db(app_name):
     elif app_name == 'facebook':
         return []
     elif app_name == 'nate':
-        return []
+        return ['.nate.com']
     elif app_name == 'google':
         return ['.google.co.kr', '.google.com', 'accounts.google.com']
     return []

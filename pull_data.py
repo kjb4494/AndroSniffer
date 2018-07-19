@@ -33,8 +33,8 @@ class PullData:
             save_path = self.path + '\\' + tmp_name + '-dump-' + str(i) + '.' + self.extension
             i += 1
         # 경로가 잘못됐거나 database에 없는 정보면 출력을 무시한다.
-        if (self.cmd_output('adb pull /mnt/sdcard/' + tmp_name + '-tmp ' + save_path)).split(':')[1] != ' error':
-            self.mainFrame.insertLogText("[Info] Pulled /data/data/{} --> {}".format(self.data_path, save_path))
+        self.cmd_output('adb pull /mnt/sdcard/' + tmp_name + '-tmp ' + save_path)
+        self.mainFrame.insertLogText("[Info] Pulled /data/data/{} --> {}".format(self.data_path, save_path))
         # PULL 작업이 끝나면 외부 저장소의 임시파일을 지운다.
         self.cmd_output('adb shell "su -c rm -rf /mnt/sdcard/' + tmp_name + '-tmp"')
 
@@ -57,14 +57,9 @@ class PullData:
     def adb_connect(self):
         # 환경변수에 adb 설정되어있는지 확인
         try:
-            self.mainFrame.insertLogText(self.cmd_output('adb --version'))
+            self.cmd_output('adb --version')
         except:
             self.mainFrame.insertLogText("adb not found error. please check path of adb...")
-            return 0
-
-        # 디바이스 연결 확인 및 루트 권한 부여
-        if len(self.cmd_output('adb root')) > 0:
-            self.mainFrame.insertLogText('no devices/emulators found')
             return 0
 
     # adb로 필요한 데이터를 pull하는 함수
