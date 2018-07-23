@@ -9,7 +9,6 @@ import codecs
 # file_name은 앱 이름-dump: 사용자가 구별하기 쉽게 하기 위해 주는 이름
 def data_extract(AuthGenerator):
     name_value = list()
-    # 파일 참조과정에서 인코딩 에러
     lines = codecs.open(AuthGenerator.path_dir + "\\" + AuthGenerator.file_name + ".json", "r", "utf-8", errors="replace").read()
     m = re.search(r"\[(\{.*\})[,](\{.*\})[,](\{.*\})[,](\{.*\})\]", lines)
     if m is not None:
@@ -23,7 +22,8 @@ def data_extract(AuthGenerator):
             elif dicts['name'] == 'fr':
                 name_value.append(('fr', dicts['value']))
         name_value = tuple(name_value)
-        cookie_str = AuthGenerator.cookie_str_join(name_value)
+        cookie_str = "[.facebook.com]\n"
+        cookie_str += AuthGenerator.cookie_str_join(name_value)
         return cookie_str
     else:
         return ''
